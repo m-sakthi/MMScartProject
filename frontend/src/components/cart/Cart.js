@@ -8,6 +8,7 @@ export default function Cart() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const  a = null ;
     const increaseQty = (item) => {
         const count = item.quantity;
         if(item.stock ==0 ||  count >= item.stock) return;
