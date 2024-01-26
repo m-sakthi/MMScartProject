@@ -69,11 +69,11 @@ export  default function ProductSearch(){
                                         marks = {
                                              {
                                                 1: "₹1",
-                                                1000000: "₹1000000"
+                                                200000: "₹200,000"
                                              }   
                                         }
                                         min={1}
-                                        max={1000000}
+                                        max={200000}
                                         defaultValue={price}
                                         onChange={(price)=>{
                                             setPrice(price)
@@ -81,7 +81,7 @@ export  default function ProductSearch(){
                                         handleRender={
                                             renderProps => {
                                                 return (
-                                                    <Tooltip  overlay={`$${renderProps.props['aria-valuenow']}`}  >
+                                                    <Tooltip  overlay={`₹${renderProps.props['aria-valuenow']}`}  >
                                                          <div {...renderProps.props}>  </div>
                                                     </Tooltip>
                                                 )
