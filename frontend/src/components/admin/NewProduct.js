@@ -36,6 +36,7 @@ export  default function NewProduct () {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+     
     const onImagesChange = (e) => {
         const files = Array.from(e.target.files);
 

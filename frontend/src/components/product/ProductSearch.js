@@ -68,12 +68,12 @@ export  default function ProductSearch(){
                                         range={true}
                                         marks = {
                                              {
-                                                1: "$1",
-                                                1000: "$1000"
+                                                1: "₹1",
+                                                1000000: "₹1000000"
                                              }   
                                         }
                                         min={1}
-                                        max={1000}
+                                        max={1000000}
                                         defaultValue={price}
                                         onChange={(price)=>{
                                             setPrice(price)

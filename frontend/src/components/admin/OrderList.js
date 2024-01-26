@@ -50,7 +50,7 @@ export default function OrderList() {
             data.rows.push({
                 id: order._id,
                 noOfItems: order.orderItems.length,
-                amount : `₹${order.totalPrice}`,
+                amount : `₹${order.totalPrice.toLocaleString()}`,
                 status: <p style={{color: order.orderStatus.includes('Processing') ? 'red' : 'green'}}>{order.orderStatus}</p> ,
                 actions: (
                     <Fragment>

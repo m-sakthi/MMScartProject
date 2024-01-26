@@ -18,6 +18,7 @@ export default function ProductDetail () {
     const dispatch = useDispatch();
     const { id } = useParams()
     const [quantity, setQuantity] = useState(1);
+    
 
     const increaseQty = () => {
         const count = document.querySelector('.count')
@@ -47,6 +48,7 @@ export default function ProductDetail () {
         dispatch(createReview(formData))
 
     }
+
 
     useEffect(()=>{
         if(isReviewSubmitted) {
@@ -108,7 +110,8 @@ export default function ProductDetail () {
 
                     <hr/>
 
-                    <p id="product_price">₹{product.price}</p>
+                    <p id="product_price">₹{Number(product.price).toLocaleString()}</p> 
+
                     <div className="stockCounter d-inline">
                         <span className="btn btn-danger minus" onClick={decreaseQty} >-</span>
 
