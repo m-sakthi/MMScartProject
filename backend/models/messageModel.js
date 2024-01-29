@@ -8,6 +8,15 @@ const messageModel = new mongoose.Schema({
   channel: {
     type: mongoose.Schema.Types.ObjectId
   },
+  sender: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user',
+    required: [true, 'is required']
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now()
+  }
 });
 
 const schema = mongoose.model('Message', messageModel);

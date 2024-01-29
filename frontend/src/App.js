@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import 'react-toastify/dist/ReactToastify.css';
-import { io } from 'socket.io-client';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import { ToastContainer } from 'react-toastify';
+import { useSelector } from 'react-redux';
 
 import store from './store';
 import './App.css';
@@ -41,11 +41,15 @@ import UpdateOrder from './components/admin/UpdateOrder';
 import UserList from './components/admin/UserList';
 import UpdateUser from './components/admin/UpdateUser';
 import ReviewList from './components/admin/ReviewList';
+import Chat from './components/chat'
+import Socket from './components/socket';
 
 import { loadUser } from './actions/userActions';
 
 function App() {
   const [stripeApiKey, setStripeApiKey] = useState("")
+  const { isAuthenticated } = useSelector(state => state.authState);
+
   useEffect(() => {
     store.dispatch(loadUser)
     async function getStripeApiKey() {
@@ -53,16 +57,6 @@ function App() {
       setStripeApiKey(data.stripeApiKey)
     }
     getStripeApiKey()
-
-
-    const socket = io('ws://localhost:3000');
-
-    socket.on('hello', (arg) => {
-      console.log('**** connected ::', arg);
-    });
-
-    socket.emit('howdy', 'Some Message from cient');
-
   }, [])
 
   return (
@@ -70,6 +64,7 @@ function App() {
       <div className="App">
         <HelmetProvider>
           <Header />
+
           <div className='container container-fluid'>
             <ToastContainer theme='dark' />
             <Routes>
@@ -89,6 +84,7 @@ function App() {
               <Route path='/order/success' element={<ProtectedRoute><OrderSuccess /></ProtectedRoute>} />
               <Route path='/orders' element={<ProtectedRoute><UserOrders /></ProtectedRoute>} />
               <Route path='/order/:id' element={<ProtectedRoute><OrderDetail /></ProtectedRoute>} />
+              <Route path='/order/:id' element={<ProtectedRoute><Chat /></ProtectedRoute>} />
               {stripeApiKey && <Route path='/payment' element={<ProtectedRoute><Elements stripe={loadStripe(stripeApiKey)}><Payment /></Elements></ProtectedRoute>} />}
             </Routes>
           </div>
@@ -104,7 +100,12 @@ function App() {
             <Route path='/admin/user/:id' element={<ProtectedRoute isAdmin={true}><UpdateUser /></ProtectedRoute>} />
             <Route path='/admin/reviews' element={<ProtectedRoute isAdmin={true}><ReviewList /></ProtectedRoute>} />
           </Routes>
-          
+          {isAuthenticated ?
+            <>
+              <Socket />
+              <Chat />
+            </>
+            : null}
           <Footer />
         </HelmetProvider>
       </div>

@@ -2,7 +2,7 @@ const app = require('./app');
 const http = require('http');
 const socketIo = require("socket.io");
 const connectDatabase = require('./config/database');
-
+const { onConnect, authSocketMiddleware } = require('./events');
 
 connectDatabase();
 
@@ -25,16 +25,7 @@ const io = socketIo(server, { cookie: false });
 //   return proceed(new Error('Not allowed by CORS'));
 // });
 
-const onConnect = (socket) => {
-  console.log('****** new client connected ***', socket.id);
-
-  socket.emit('hello', 'Message');
-
-  socket.on('howdy', (arg) => {
-    console.log('****** received message from client:', arg);
-  });
-}
-
+io.use(authSocketMiddleware);
 io.on('connect', onConnect);
 
 server.listen(port);
@@ -54,6 +45,3 @@ process.on('uncaughtException', (err) => {
     process.exit(1);
   })
 })
-
-
-
