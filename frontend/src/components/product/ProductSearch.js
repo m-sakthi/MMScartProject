@@ -16,7 +16,7 @@ export  default function ProductSearch(){
     const dispatch = useDispatch();
     const {products, loading, error, productsCount, resPerPage} =    useSelector((state) => state.productsState)
     const [currentPage, setCurrentPage] = useState(1);
-    const [price, setPrice] = useState([1,1000]);
+    const [price, setPrice] = useState([1,200000]);
     const [priceChanged, setPriceChanged] = useState(price);
     const [category, setCategory] = useState(null);
     const [rating, setRating] = useState(0);

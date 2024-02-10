@@ -10,6 +10,7 @@ export const getProducts = (keyword, price, category, rating, currentPage) => as
         
         if(keyword) {
             link += `&keyword=${keyword}`
+           
         }
         if(price) {
             link += `&price[gte]=${price[0]}&price[lte]=${price[1]}`
@@ -22,6 +23,7 @@ export const getProducts = (keyword, price, category, rating, currentPage) => as
         }
         
         const { data }  =  await axios.get(link);
+        console.log(" api "+link)
         dispatch(productsSuccess(data))
     } catch (error) {
         //handle error

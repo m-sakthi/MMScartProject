@@ -8,6 +8,7 @@ exports.getProducts = catchAsyncError(async (req, res, next)=>{
     const resPerPage = 3;
     
     let buildQuery = () => {
+        console.log(req)
         return new APIFeatures(Product.find(), req.query).search().filter()
     }
     

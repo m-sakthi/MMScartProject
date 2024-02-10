@@ -109,6 +109,7 @@ export  default function NewProduct () {
                             <div className="form-group">
                             <label htmlFor="name_field">Name</label>
                             <input
+                            
                                 type="text"
                                 id="name_field"
                                 className="form-control"
