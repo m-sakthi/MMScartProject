@@ -44,9 +44,8 @@ export default function Cart() {
                         <Link to={`/product/${item.product}`}>{item.name}</Link>
                       </div>
 
-
                       <div className="col-4 col-lg-2 mt-4 mt-lg-0">
-                        <p id="card_item_price">${item.price}</p>
+                        <p id="card_item_price">₹{item.price.toLocaleString()}</p>
                       </div>
 
                       <div className="col-4 col-lg-3 mt-4 mt-lg-0">
@@ -74,7 +73,8 @@ export default function Cart() {
                 <h4>Order Summary</h4>
                 <hr />
                 <p>Subtotal:  <span className="order-summary-values">{items.reduce((acc, item) => (acc + item.quantity), 0)} (Units)</span></p>
-                <p>Est. total: <span className="order-summary-values">${items.reduce((acc, item) => (acc + item.quantity * item.price), 0)}</span></p>
+                <p>Est. total: <span className="order-summary-values">₹{items.reduce((acc, item) => (acc + item.quantity * item.price), 0).toLocaleString()}</span></p>
+
 
                 <hr />
                 <button id="checkout_btn" onClick={checkoutHandler} className="btn btn-primary btn-block">Check out</button>

@@ -36,6 +36,7 @@ export  default function NewProduct () {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+     
     const onImagesChange = (e) => {
         const files = Array.from(e.target.files);
 
@@ -108,6 +109,7 @@ export  default function NewProduct () {
                             <div className="form-group">
                             <label htmlFor="name_field">Name</label>
                             <input
+                            
                                 type="text"
                                 id="name_field"
                                 className="form-control"
