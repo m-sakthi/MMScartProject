@@ -5,7 +5,9 @@ const authSlice = createSlice({
   name: 'auth',
   initialState: {
     loading: true,
-    isAuthenticated: false
+    isAuthenticated: false,
+    user: null,
+    isOnline: null,
   },
   reducers: {
     loginRequest(state, action) {
@@ -24,7 +26,7 @@ const authSlice = createSlice({
       }
     },
     loginFail(state, action) {
-      localStorage.deleteItem('jwttoken');
+      localStorage.removeItem('jwttoken');
       return {
         ...state,
         loading: false,
@@ -182,7 +184,12 @@ const authSlice = createSlice({
         error: action.payload
       }
     },
-
+    saveIsOnline(state, action) {
+      return {
+        ...state,
+        isOnline: action.payload
+      }
+    }
   }
 });
 
@@ -214,7 +221,7 @@ export const {
   resetPasswordFail,
   resetPasswordRequest,
   resetPasswordSuccess,
-
+  saveIsOnline,
 } = actions;
 
 export default reducer;

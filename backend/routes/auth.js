@@ -26,7 +26,8 @@ const {
   getAllUsers,
   getUser,
   updateUser,
-  deleteUser
+  deleteUser,
+  searchUsers
 } = require('../controllers/authController');
 const router = express.Router();
 const { isAuthenticatedUser, authorizeRoles } = require('../middlewares/authenticate')
@@ -39,6 +40,7 @@ router.route('/password/reset/:token').post(resetPassword);
 router.route('/password/change').put(isAuthenticatedUser, changePassword);
 router.route('/myprofile').get(isAuthenticatedUser, getUserProfile);
 router.route('/update').put(isAuthenticatedUser, upload.single('avatar'), updateProfile);
+router.route('/users/search').get(isAuthenticatedUser, searchUsers);
 
 //Admin routes
 router.route('/admin/users').get(isAuthenticatedUser, authorizeRoles('admin'), getAllUsers);

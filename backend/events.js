@@ -16,7 +16,7 @@ Array.prototype.remove = function (item) {
 };
 
 const userSockets = {};
-const onConnect = (socket) => {
+const onConnect = (io) => (socket) => {
   console.log('****** new client connected ***', userSockets, socket.user);
 
   socket.on('disconnect', (args) => {
@@ -43,13 +43,18 @@ const onConnect = (socket) => {
         const chatChannel = await Channel.findById(channel);
 
         for(i = 0; i < chatChannel.members.length; i++) {
-          console.log('chatChannel.members[i]', chatChannel.members[i], socket.user.id);
-          if (chatChannel.members[i].toString() !== socket.user.id) {
-            socket.emit('new-message-received', resp);
+          const memberId = chatChannel.members[i].toString();
+          if (memberId !== socket.user.id) {
+            const connectedSockets = userSockets[memberId];
+            if (connectedSockets && connectedSockets.length) {
+              for(j = 0; j < connectedSockets.length; j++) {
+                io.to(connectedSockets[j]).emit('new-message-received', resp);
+              }
+            }
           }
         }
 
-        socket.emit('message-response', resp);
+        socket.emit('new-message-sent', resp);
       }
     }
   });

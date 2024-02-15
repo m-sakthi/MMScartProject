@@ -44,12 +44,11 @@ export default function () {
   };
 
   const handleMessageResponse = (response) => {
-    console.log('********* essage-response', response);
     dispatch(newMessageReceived(response));
   }
 
   useEffect(() => {
-    if (!adminChannel) {
+    if (!adminChannel && user.role !== 'admin') {
       dispatch(findOrCreateAdminChannel);
     } else {
       dispatch(getMessages(adminChannel._id));

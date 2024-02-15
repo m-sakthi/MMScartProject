@@ -11,7 +11,10 @@ import {
   channelsRequest,
   channelsSuccess,
   channelsFail,
+  updateChannelLastMessage,
 } from '../slices/channelSlice';
+
+import { saveIsOnline } from '../slices/authSlice'
 
 export const getChannels = async (dispatch) => {
   try {
@@ -49,10 +52,13 @@ export const findOrCreateAdminChannel = async (dispatch) => {
 
 export const newMessageReceived = params => async (dispatch) => {
   if (params.data) {
+    console.log(params.data);
     dispatch(addNewMessage(params.data));
+    dispatch(updateChannelLastMessage(params.data));
   }
 }
 
 export const saveSocketDetail = socketID => async (dispatch) => {
   dispatch(saveSocketID(socketID));
+  dispatch(saveIsOnline(Boolean(socketID)));
 };

@@ -193,6 +193,26 @@ exports.updateProfile = catchAsyncError(async (req, res, next) => {
 
 })
 
+// Search Users by name - /api/v1/users/search
+exports.searchUsers = catchAsyncError(async (req, res, next) => {
+  const resPerPage = 10;
+  const totalCount = await User.countDocuments({});
+  const users = await User.find({
+    name: {
+      $regex: req.query.keyword,
+      $options: 'i'
+    }
+  }).sort({ createdAt: 'asc' });
+
+  res.status(200).json({
+    success: true,
+    count: users.length,
+    totalCount,
+    resPerPage,
+    users
+  })
+});
+
 //Admin: Get All Users - /api/v1/admin/users
 exports.getAllUsers = catchAsyncError(async (req, res, next) => {
   const users = await User.find();
@@ -200,7 +220,7 @@ exports.getAllUsers = catchAsyncError(async (req, res, next) => {
     success: true,
     users
   })
-})
+});
 
 //Admin: Get Specific User - api/v1/admin/user/:id
 exports.getUser = catchAsyncError(async (req, res, next) => {

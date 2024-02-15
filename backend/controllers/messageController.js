@@ -7,7 +7,7 @@ const APIFeatures = require('../utils/apiFeatures');
 exports.getMessages = catchAsyncError(async (req, res, next) => {
   const resPerPage = 10;
   const totalCount = await Message.countDocuments({});
-  const messages = await Message.find().sort({ createdAt: 'asc' });
+  const messages = await Message.find().sort({ createdAt: 'asc' }).lean({ virtuals: true }).exec();
 
   res.status(200).json({
     success: true,

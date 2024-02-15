@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import 'react-toastify/dist/ReactToastify.css';
 import { Elements } from '@stripe/react-stripe-js';
@@ -6,7 +7,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import { ToastContainer } from 'react-toastify';
-import { useSelector } from 'react-redux';
+import { DeviceUUID } from 'device-uuid';
 
 import store from './store';
 import './App.css';
@@ -41,22 +42,29 @@ import UpdateOrder from './components/admin/UpdateOrder';
 import UserList from './components/admin/UserList';
 import UpdateUser from './components/admin/UpdateUser';
 import ReviewList from './components/admin/ReviewList';
-import Chat from './components/chat'
-import Socket from './components/socket';
+import Messages from './components/messages'
+import ProfileModal from './components/common/profile-modal';
+import InviteModal from './components/channels/invite-modal';
+// import Chat from './components/chat'
+// import Socket from './components/socket';
 
 import { loadUser } from './actions/userActions';
+import { saveDeviceUUID } from './slices/userSlice';
 
 function App() {
-  const [stripeApiKey, setStripeApiKey] = useState("")
-  const { isAuthenticated } = useSelector(state => state.authState);
+  const [stripeApiKey, setStripeApiKey] = useState("");
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    store.dispatch(loadUser)
+    dispatch(loadUser)
     async function getStripeApiKey() {
       const { data } = await axios.get('/api/v1/stripeapi')
       setStripeApiKey(data.stripeApiKey)
     }
-    getStripeApiKey()
+    getStripeApiKey();
+
+    const uuid = new DeviceUUID().get();
+    dispatch(saveDeviceUUID(uuid));
   }, [])
 
   return (
@@ -84,8 +92,12 @@ function App() {
               <Route path='/order/success' element={<ProtectedRoute><OrderSuccess /></ProtectedRoute>} />
               <Route path='/orders' element={<ProtectedRoute><UserOrders /></ProtectedRoute>} />
               <Route path='/order/:id' element={<ProtectedRoute><OrderDetail /></ProtectedRoute>} />
-              <Route path='/order/:id' element={<ProtectedRoute><Chat /></ProtectedRoute>} />
               {stripeApiKey && <Route path='/payment' element={<ProtectedRoute><Elements stripe={loadStripe(stripeApiKey)}><Payment /></Elements></ProtectedRoute>} />}
+            </Routes>
+          </div>
+          <div className='container-fluid p-0'>
+            <Routes>
+              <Route path='/messages' element={<ProtectedRoute><Messages /></ProtectedRoute>} />
             </Routes>
           </div>
           {/* Admin Routes */}
@@ -100,12 +112,8 @@ function App() {
             <Route path='/admin/user/:id' element={<ProtectedRoute isAdmin={true}><UpdateUser /></ProtectedRoute>} />
             <Route path='/admin/reviews' element={<ProtectedRoute isAdmin={true}><ReviewList /></ProtectedRoute>} />
           </Routes>
-          {isAuthenticated ?
-            <>
-              <Socket />
-              <Chat />
-            </>
-            : null}
+          <ProfileModal />
+          <InviteModal />
           <Footer />
         </HelmetProvider>
       </div>

@@ -36,10 +36,14 @@ const messageSlice = createSlice({
       }
     },
     addNewMessage(state, action) {
+      const messages = state.messages.find(id => id === action.payload._id)
+        ? state.messages
+        : [...state.messages, action.payload];
+
       return {
         ...state,
         loading: false,
-        messages: [...state.messages, action.payload]
+        messages
       }
     },
   }

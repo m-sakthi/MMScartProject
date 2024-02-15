@@ -8,6 +8,7 @@ import orderReducer from './slices/orderSlice';
 import userReducer from './slices/userSlice';
 import messageReducer from './slices/messageSlice';
 import channelReducer from './slices/channelSlice';
+import layoutReducer from './slices/layoutSlice';
 
 const reducer = combineReducers({
   productsState: productsReducer,
@@ -18,6 +19,7 @@ const reducer = combineReducers({
   userState: userReducer,
   messageState: messageReducer,
   channelState: channelReducer,
+  layoutState: layoutReducer,
 })
 
 

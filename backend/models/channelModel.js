@@ -1,16 +1,35 @@
 const mongoose = require('mongoose');
+const mongooseLeanId = require('mongoose-lean-id');
+const mongooseLeanVirtuals = require('mongoose-lean-virtuals');
 
-const channelModel = new mongoose.Schema({
-  // name: {
-  //   type: String,
-  //   required: [true, "Please enter the channel name"],
-  // },
+const channelSchema = new mongoose.Schema({
+  status: {
+    type: String,
+    enum: ['invited', 'active', 'deleted'],
+    default: 'invited'
+  },
+  category: {
+    type: String,
+    enum: ['dm', 'group'],
+    default: 'dm'
+  },
   members: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
-  }]
-});
+  }],
+  messages: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Message'
+  }],
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }
+}, { timestamps: true });
 
-const schema = mongoose.model('Channel', channelModel);
+channelSchema.plugin(mongooseLeanId);
+channelSchema.plugin(mongooseLeanVirtuals);
 
-module.exports = schema;
+const channelModel = mongoose.model('Channel', channelSchema);
+
+module.exports = channelModel;

@@ -28,8 +28,12 @@ body {
 }
 
 nav {
-  background-color: #232f3e;
+  /* background-color: #232f3e; */
   padding: 1rem 1rem;
+}
+
+.nav-icon-xl {
+  font-size: 25px;
 }
 
 #search_btn {
@@ -119,10 +123,11 @@ nav {
 
 /* Footer */
 footer {
-  margin-top: 8rem;
-  color: grey;
-  bottom: 0;
   width: 100%;
+  background-color: var(--bs-gray-200);
+  color: #333;
+  position: absolute;
+  bottom: 0;
 }
 
 /* Ratings */
@@ -715,4 +720,10 @@ ul.CTAs a {
   color: #fff;
   padding: 5px 0;
   font-size: 25px;
+}
+
+
+.svg-cls-2 {
+  fill: #fff;
+  opacity: 0.1;
 }

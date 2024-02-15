@@ -26,7 +26,7 @@ const io = socketIo(server, { cookie: false });
 // });
 
 io.use(authSocketMiddleware);
-io.on('connect', onConnect);
+io.on('connect', onConnect(io));
 
 server.listen(port);
 

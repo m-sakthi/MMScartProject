@@ -3,6 +3,8 @@ const validator = require('validator');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto')
+const mongooseLeanId = require('mongoose-lean-id');
+const mongooseLeanVirtuals = require('mongoose-lean-virtuals');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -34,10 +36,11 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  connectedSockets: {
-    type: [String],
-  },
-})
+}, { toJSON: { virtuals: true } })
+
+userSchema.virtual('initials').get(function() {
+  return this.name.slice(0, 2).toUpperCase();
+});
 
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
@@ -68,6 +71,9 @@ userSchema.methods.getResetToken = function () {
 
   return token
 }
+
+userSchema.plugin(mongooseLeanId);
+userSchema.plugin(mongooseLeanVirtuals);
 
 const model = mongoose.model('User', userSchema);
 

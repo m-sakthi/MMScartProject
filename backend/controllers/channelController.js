@@ -1,58 +1,99 @@
 const Channel = require('../models/channelModel');
 const User = require('../models/userModel');
+const Message = require('../models/messageModel');
 const ErrorHandler = require('../utils/errorHandler');
 const catchAsyncError = require('../middlewares/catchAsyncError');
 const APIFeatures = require('../utils/apiFeatures');
 
 //Get Channels - /api/v1/channels
 exports.getChannels = catchAsyncError(async (req, res, next) => {
-  const resPerPage = 3;
 
-  let buildQuery = () => {
-    return new APIFeatures(Channel.find(), req.query).search().filter()
+  let channels = await Channel.find({
+    members: { $in: [req.user.id] }
+  }).populate('members')
+    .populate('messages')
+    .lean({ virtuals: true }).exec();
+
+  for (let i = 0; i < channels.length; i++) {
+    channels[i].recepient = channels[i].members.find(m => m.id !== req.user.id)
+    channels[i].latestMessage = await Message
+      .findOne({ channel: channels[i]._id })
+      .sort({ createdAt: 'desc' })
+      .limit(1)
+      .lean({ virtuals: true });
   }
-
-  const filteredChannelsCount = await buildQuery().query.countDocuments({})
-  const totalChannelsCount = await Channel.countDocuments({});
-  let channelsCount = totalChannelsCount;
-
-  if (filteredChannelsCount !== totalChannelsCount) {
-    channelsCount = filteredChannelsCount;
-  }
-
-  const channels = await buildQuery().paginate(resPerPage).query;
 
   res.status(200).json({
     success: true,
-    count: channelsCount,
-    resPerPage,
     channels
   })
 })
 
-//Create Channel - /api/v1/Channel/findOrCreate
+//Create Channel - /api/v1/channels/findOrCreate
 exports.findOrCreate = catchAsyncError(async (req, res, next) => {
-  req.body.members = [req.user.id, req.body.recepientId];
+  const { recepientId, recepientEmail } = req.body;
+  let recepient;
 
-  console.log("req.body:::", req.body);
+  if (recepientEmail) {
+    recepient = await User.findOne({ email: recepientEmail });
+  }
 
-  let channel = await Channel.findOne({
-    members: [req.user.id, req.body.recepientId]
-  });
+  if (!recepient && recepientId) {
+    recepient = await User.findOne({ _id: recepientId });
+  }
 
-  if (!channel) {
-    channel = await Channel.create(req.body);
+  if (recepient) {
+    req.body.members = [req.user.id, recepient._id];
 
-    return res.status(201).json({
-      success: true,
-      channel
+    if (req.user.id === recepientId) {
+      return res.status(400).json({
+        success: false,
+        error: { message: 'Cannot create members with same id' }
+      });
+    }
+
+    let channel = await Channel.findOne({
+      members: [req.user.id, req.body.recepientId]
     });
+
+    if (!channel) {
+      channel = await Channel.create({ ...req.body, createdBy: req.user.id });
+
+      return res.status(201).json({
+        success: true,
+        channel
+      });
+    } else {
+      return res.status(200).json({
+        success: true,
+        channel: channel
+      });
+    }
   } else {
     return res.status(200).json({
       success: true,
-      channel: channel
     });
   }
+});
+
+exports.acceptInvite = catchAsyncError(async (req, res, next) => {
+  const { id } = req.params;
+
+  let channel = await Channel.findById(id);
+
+  if (!channel)
+    return res.status(404).json({
+      success: false,
+      message: 'Record not found!'
+    });
+
+  channel.status = 'active';
+  await channel.save();
+
+  return res.status(200).json({
+    success: true,
+    channel: channel
+  });
 });
 
 // Create chat channel with Admin
@@ -65,8 +106,13 @@ exports.adminFindOrCreate = catchAsyncError(async (req, res, next) => {
     return res.status(400).json({
       message: 'Admin user not found..!'
     });
-  } else {
+  }
 
+  if (req.user.id === adminUser.id) {
+    return res.status(400).json({
+      success: false,
+      error: { message: 'Cannot create members with same id' }
+    });
   }
 
   req.body.members = [req.user.id, adminUser.id];

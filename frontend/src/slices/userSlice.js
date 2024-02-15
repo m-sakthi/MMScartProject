@@ -109,8 +109,13 @@ const userSlice = createSlice({
         ...state,
         error: null
       }
+    },
+    saveDeviceUUID(state, action) {
+      return {
+        ...state,
+        userDeviceUUID: action.payload
+      }
     }
-
   }
 });
 
@@ -131,8 +136,8 @@ export const {
   updateUserFail,
   clearUserDeleted,
   clearUserUpdated,
-  clearError
-
+  clearError,
+  saveDeviceUUID,
 } = actions;
 
 export default reducer;

@@ -42,7 +42,7 @@ export default function Login() {
         <div className="col-10 col-lg-5">
           <form onSubmit={submitHandler} className="shadow-lg">
             <h1 className="mb-3">Login</h1>
-            <div className="form-group">
+            <div className="form-group mt-5">
               <label htmlFor="email_field">Email</label>
               <input
                 type="email"
@@ -53,7 +53,7 @@ export default function Login() {
               />
             </div>
 
-            <div className="form-group">
+            <div className="form-group mt-5">
               <label htmlFor="password_field">Password</label>
               <input
                 type="password"
@@ -64,18 +64,19 @@ export default function Login() {
               />
             </div>
 
-            <Link to="/password/forgot" className="float-right mb-4">Forgot Password?</Link>
+            <div className='d-flex align-items-center mt-5 mb-3'>
+              <Link to="/password/forgot" className="me-auto">Forgot Password?</Link>
+              <Link to="/register" className="float-right mt-3">New User?</Link>
+            </div>
 
             <button
               id="login_button"
               type="submit"
-              className="btn btn-block py-3"
+              className="btn btn-block mt-5 py-3"
               disabled={loading}
             >
               LOGIN
             </button>
-
-            <Link to="/register" className="float-right mt-3">New User?</Link>
           </form>
         </div>
       </div>

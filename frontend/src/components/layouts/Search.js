@@ -33,7 +33,7 @@ export default function Search() {
           value={keyword}
         />
         <div className="input-group-append">
-          <button id="search_btn" className="btn">
+          <button className="btn btn-sm btn-primary">
             <i className="fa fa-search" aria-hidden="true"></i>
           </button>
         </div>

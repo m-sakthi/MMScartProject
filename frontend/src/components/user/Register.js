@@ -63,12 +63,12 @@ export default function Register() {
         <form onSubmit={submitHandler} className="shadow-lg" encType='multipart/form-data'>
           <h1 className="mb-3">Register</h1>
 
-          <div className="form-group">
+          <div className="form-group mt-5">
             <label htmlFor="email_field">Name</label>
             <input name='name' onChange={onChange} type="name" id="name_field" className="form-control" />
           </div>
 
-          <div className="form-group">
+          <div className="form-group mt-5">
             <label htmlFor="email_field">Email</label>
             <input
               type="email"
@@ -80,7 +80,7 @@ export default function Register() {
             />
           </div>
 
-          <div className="form-group">
+          <div className="form-group mt-5">
             <label htmlFor="password_field">Password</label>
             <input
               name='password'
@@ -92,10 +92,10 @@ export default function Register() {
             />
           </div>
 
-          <div className='form-group'>
+          <div className='form-group mt-5'>
             <label htmlFor='avatar_upload'>Avatar</label>
             <div className='d-flex align-items-center'>
-              <div>
+              <div className='me-5'>
                 <figure className='avatar mr-3 item-rtl'>
                   <img
                     src={avatarPreview}
@@ -105,6 +105,9 @@ export default function Register() {
                 </figure>
               </div>
               <div className='custom-file'>
+                <label className='custom-file-label' htmlFor='customFile'>
+                  Choose Avatar
+                </label>
                 <input
                   type='file'
                   name='avatar'
@@ -112,9 +115,6 @@ export default function Register() {
                   className='custom-file-input'
                   id='customFile'
                 />
-                <label className='custom-file-label' htmlFor='customFile'>
-                  Choose Avatar
-                </label>
               </div>
             </div>
           </div>
@@ -122,7 +122,7 @@ export default function Register() {
           <button
             id="register_button"
             type="submit"
-            className="btn btn-block py-3"
+            className="btn btn-block mt-5 py-3"
             disabled={loading}
           >
             REGISTER
