@@ -22,7 +22,7 @@ export default function Product({ product, col }) {
           </div>
           <p className="card-text">₹{product.price.toLocaleString()}</p>
 
-          <Link to={`/product/${product._id}`} id="view_btn" className="btn btn-block">View Details</Link>
+          <Link to={`/product/${product._id}`} className="btn btn-block btn-primary">View Details</Link>
         </div>
       </div>
     </div>

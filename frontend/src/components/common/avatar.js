@@ -1,6 +1,7 @@
 import Image from './image';
 
 const Avatar = ({ user, isOnline, isLoading, onClick, classes = '' }) => {
+  if (!user) return null;
   if (isLoading) {
     return (
       <div className="avatar">

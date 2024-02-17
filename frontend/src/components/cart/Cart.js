@@ -50,15 +50,17 @@ export default function Cart() {
 
                       <div className="col-4 col-lg-3 mt-4 mt-lg-0">
                         <div className="stockCounter d-inline">
-                          <span className="btn btn-danger minus" onClick={() => decreaseQty(item)}>-</span>
-                          <input type="number" className="form-control count d-inline" value={item.quantity} readOnly />
-
-                          <span className="btn btn-primary plus" onClick={() => increaseQty(item)}>+</span>
+                          <button className="btn btn-light minus" onClick={() => decreaseQty(item)}><i class="fa-solid fa-minus"></i></button>
+                          <input type="number" className="form-control count d-inline ms-4" value={item.quantity} readOnly />
+                          <button className="btn btn btn-light plus ms-4" onClick={() => increaseQty(item)}><i class="fa-solid fa-plus"></i></button>
                         </div>
                       </div>
 
                       <div className="col-4 col-lg-1 mt-4 mt-lg-0">
-                        <i id="delete_cart_item" onClick={() => dispatch(removeItemFromCart(item.product))} className="fa fa-trash btn btn-danger"></i>
+                        <button className="btn btn-danger" onClick={() => dispatch(removeItemFromCart(item.product))}>
+                          <i class="fa-solid fa-trash"></i>
+                        </button>
+                        {/* <i id="delete_cart_item" onClick={() => dispatch(removeItemFromCart(item.product))} className="fa fa-trash btn btn-danger"></i> */}
                       </div>
 
                     </div>
