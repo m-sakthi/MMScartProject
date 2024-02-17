@@ -9,7 +9,7 @@ const ItemHeader = ({ user, latestMessage, isLoading }) => {
         </h5>
         : <>
           <h5 key={user.id} className="me-auto mb-0">{user.name}</h5>
-          <span key={latestMessage.id} className="text-muted extra-small ms-2">{latestMessage.createdTime}</span>
+          {latestMessage ? <span key={latestMessage.id} className="text-muted extra-small ms-2">{latestMessage?.createdTime}</span> : null}
         </>}
     </div>
   );

@@ -10,7 +10,7 @@ import { Image } from 'react-bootstrap';
 
 import { socket } from '../../socket';
 import MessagesList from './message';
-import { findOrCreateAdminChannel, getMessages, newMessageReceived } from '../../actions/messageActions';
+// import { findOrCreateAdminChannel, getMessages, newMessageReceived } from '../../actions/messageActions';
 
 export default function () {
   const dispatch = useDispatch();
@@ -43,20 +43,20 @@ export default function () {
     }
   };
 
-  const handleMessageResponse = (response) => {
-    dispatch(newMessageReceived(response));
-  }
+  // const handleMessageResponse = (response) => {
+  //   dispatch(newMessageReceived(response));
+  // }
 
-  useEffect(() => {
-    if (!adminChannel && user.role !== 'admin') {
-      dispatch(findOrCreateAdminChannel);
-    } else {
-      dispatch(getMessages(adminChannel._id));
-    }
-    socket.on('message-response', handleMessageResponse);
-    socket.on('new-message-received', handleMessageResponse);
+  // useEffect(() => {
+  //   if (!adminChannel && user.role !== 'admin') {
+  //     dispatch(findOrCreateAdminChannel);
+  //   } else {
+  //     dispatch(getMessages(adminChannel._id));
+  //   }
+  //   socket.on('message-response', handleMessageResponse);
+  //   socket.on('new-message-received', handleMessageResponse);
     
-  }, []);
+  // }, []);
 
 
   const handleHeaderClick = () => {
