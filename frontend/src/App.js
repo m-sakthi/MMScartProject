@@ -9,8 +9,8 @@ import { HelmetProvider } from 'react-helmet-async'
 import { ToastContainer } from 'react-toastify';
 import { DeviceUUID } from 'device-uuid';
 
-import store from './store';
 import './App.css';
+import './template.css';
 import Home from './components/Home';
 import Footer from './components/layouts/Footer';
 import Header from './components/layouts/Header';

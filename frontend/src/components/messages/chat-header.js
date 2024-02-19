@@ -31,7 +31,7 @@ const ChatHeader = ({ currentUser, recepient, isLoading }) => {
                     classes='d-none d-xl-inline-block'
                     user={recepient}
                     isLoading={isLoading}
-                    isOnline={recepient.isOnline}
+                    // isOnline={recepient.isOnline}
                     onClick={() => dispatch(openProfileModal())}
                   />
                 </div>

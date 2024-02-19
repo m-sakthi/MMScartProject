@@ -64,12 +64,14 @@ const channelSlice = createSlice({
       return {
         ...state,
         loadingCreate: false,
+        channelCreateError: null
       }
     },
     channelsCreateFail(state, action) {
       return {
         ...state,
         loadingCreate: false,
+        channelCreateError: action.payload
       }
     },
     setSelectedChannel(state, action) {
@@ -85,17 +87,22 @@ const channelSlice = createSlice({
       }
     },
     setAcceptInvite(state, action) {
+      const channels = state.channels.map(c => c._id === action.payload._id ? { ...c, status: 'active' } : c)
       return {
         ...state,
         loadingAcceptInvite: false,
-        channels: state.channels.map(c => c._id === action.payload._id ? {...c, status: 'active' } : c )
+        selectedChannel: channels.find(c => c._id === action.payload._id),
+        channels
       }
     },
     updateChannelLastMessage(state, action) {
+      const channels = state.channels.map(c => c._id === action.payload.channel ? { ...c, status: 'active', latestMessage: action.payload } : c)
+      const selectedChannel = state.selectedChannel._id === action.payload.channel ? channels.find(c => c._id === action.payload.channel) : state.selectedChannel
       return {
         ...state,
         loadingAcceptInvite: false,
-        channels: state.channels.map(c => c._id === action.payload.channel ? {...c, latestMessage: action.payload } : c )
+        selectedChannel,
+        channels
       }
     },
     errorAcceptInvite(state, action) {

@@ -23,8 +23,6 @@ export default function () {
   const formRef = useRef();
 
   const messageCallback = () => {
-    // txtRef.current.value = "";
-    console.log("formRef::::", formRef);
     formRef.current.reset();
     setIsLoading(false);
   }

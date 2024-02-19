@@ -38,8 +38,13 @@ const ChannelsListItem = ({ channel, currentUser, recepient, latestMessage, invi
               </div>
               : <div className="d-flex align-items-center">
                 <div className="line-clamp me-auto">
-                  {channel.status === 'invited' && (channel.createdBy === currentUser.id ? 'Has been invited for chat' : 'Sent you a chat request.')}
-                  {channel.status === 'active' ? latestMessage ? latestMessage.txt : '-' : null}
+                  {channel.status === 'invited' &&
+                    <span className="text-muted fs-6">
+                      {channel.createdBy === currentUser.id ?
+                        'You can start conversation once your invite has been accepted' :
+                        'Sent you a chat request.'}
+                    </span>}
+                  {channel.status === 'active' ? latestMessage ? latestMessage.txt : '' : null}
                 </div>
 
                 {/* <div className="badge badge-circle bg-primary ms-5">

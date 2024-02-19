@@ -74,7 +74,6 @@ const ChannelsList = () => {
 
   const _inviteAcceptHandler = (id) => e => {
     e.preventDefault();
-    console.log('********** _inviteAcceptHandler_inviteAcceptHandler', id);
     dispatch(acceptInvite(id));
   }
 

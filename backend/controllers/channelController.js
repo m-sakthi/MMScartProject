@@ -45,15 +45,14 @@ exports.findOrCreate = catchAsyncError(async (req, res, next) => {
   if (recepient) {
     req.body.members = [req.user.id, recepient._id];
 
-    if (req.user.id === recepientId) {
+    if (req.user.id === recepient._id.toString()) {
       return res.status(400).json({
-        success: false,
-        error: { message: 'Cannot create members with same id' }
+        error: { message: 'Cannot create a chat channel for yourself..! ' }
       });
     }
 
     let channel = await Channel.findOne({
-      members: [req.user.id, req.body.recepientId]
+      $or: [{ members: [req.user.id, recepient._id] }, { members: [recepient._id, req.user.id] }]
     });
 
     if (!channel) {

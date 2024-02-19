@@ -17,10 +17,10 @@ Array.prototype.remove = function (item) {
 
 const userSockets = {};
 const onConnect = (io) => (socket) => {
-  console.log('****** new client connected ***', userSockets, socket.user);
+  // console.log('****** new client connected ***', userSockets, socket.user);
 
   socket.on('disconnect', (args) => {
-    console.log('*********** disconnected', socket.id, args);
+    // console.log('*********** disconnected', socket.id, args);
     userSockets[socket.user.id] = userSockets[socket.user.id].remove(socket.id);
   });
 
@@ -28,7 +28,7 @@ const onConnect = (io) => (socket) => {
 
   socket.on('send-message', async ({ channel, txt }) => {
     if (socket.user) {
-      console.log('****** received message from client:', userSockets, channel, socket.id, socket.user);
+      // console.log('****** received message from client:', userSockets, channel, socket.id, socket.user);
       const resp = {};
       try {
         const msg = await Message.create({

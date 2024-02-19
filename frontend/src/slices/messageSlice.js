@@ -5,13 +5,15 @@ const messageSlice = createSlice({
   initialState: {
     loading: false,
     adminChannel: null,
+    socketObj: null,
     messages: []
   },
   reducers: {
-    saveSocketID(state, action) {
+    saveSocket(state, action) {
       return {
         ...state,
-        socketID: action.payload
+        socketObj: action.payload,
+        socketID: action.payload.id
       }
     },
     messagesRequest(state, action) {
@@ -55,7 +57,7 @@ export const {
   messagesRequest,
   messagesSuccess,
   messagesFail,
-  saveSocketID,
+  saveSocket,
   addNewMessage,
 } = actions;
 

@@ -8,17 +8,20 @@ import { findOrCreateChannel } from "../../actions/channelActions";
 const InviteModal = () => {
   const dispatch = useDispatch();
   const emailInput = useRef();
+  const formRef = useRef();
   const { user } = useSelector(state => state.authState);
   const { showChatInviteModal } = useSelector(state => state.layoutState);
-  const { loadingCreate } = useSelector((state) => state.channelState);
+  const { loadingCreate, channelCreateError } = useSelector((state) => state.channelState);
 
   const closeModal = () => {
     dispatch(closeChatInviteModal());
   }
 
+  const resetForm = () => formRef.current.reset();
+
   const sendInvitation = (e) => {
     e.preventDefault();
-    dispatch(findOrCreateChannel({ recepientEmail: emailInput.current.value }));
+    dispatch(findOrCreateChannel({ recepientEmail: emailInput.current.value }, resetForm));
   }
 
   return (
@@ -49,7 +52,12 @@ const InviteModal = () => {
           <div className="profile-body">
             <div className="avatar avatar-lg">
               <span className="avatar-text bg-primary">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-user-plus"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-user-plus">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="8.5" cy="7" r="4"></circle>
+                  <line x1="20" y1="8" x2="20" y2="14"></line>
+                  <line x1="23" y1="11" x2="17" y2="11"></line>
+                </svg>
               </span>
             </div>
 
@@ -59,7 +67,7 @@ const InviteModal = () => {
         </div>
 
         <hr className="hr-bold modal-gx-n my-0" />
-        <form onSubmit={sendInvitation}>
+        <form ref={formRef} onSubmit={sendInvitation}>
           <div className="modal-py">
             <div className="col-12">
               <label htmlFor="invite-email" className="form-label text-muted">E-mail</label>
@@ -73,7 +81,9 @@ const InviteModal = () => {
               />
             </div>
             <div className="d-flex align-items-center mt-3 px-2">
-              <small className="text-muted me-auto">Note: Invite will be sent to the email if the user has already signed up.</small>
+              {channelCreateError ?
+                <small className="text-danger me-auto">Error: {channelCreateError.message}</small> :
+                <small className="text-muted me-auto">Note: Invite will be sent to the email if the user has already signed up.</small>}
             </div>
           </div>
 

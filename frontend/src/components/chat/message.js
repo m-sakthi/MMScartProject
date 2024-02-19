@@ -23,8 +23,6 @@ const MessageItem = ({ isSenderCurrentUser, createdAt, txt }) => {
 }
 
 export default ({ currentUser, messages = [] }) => {
-  console.log("messages component", currentUser, messages)
-
   return (<MDBCardBody>
     {messages.map(m => (
       <div key={m._id} className={`d-flex mb-4 pt-1 justify-content-start ${m.sender === currentUser._id ? 'flex-row-reverse' : ''}`}>

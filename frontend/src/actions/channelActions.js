@@ -11,7 +11,7 @@ import {
   errorAcceptInvite,
 } from '../slices/channelSlice';
 
-import { saveSocketID, addNewMessage } from '../slices/messageSlice';
+import { addNewMessage } from '../slices/messageSlice';
 import { closeChatInviteModal } from '../slices/layoutSlice';
 
 // import 
@@ -27,27 +27,25 @@ export const getChannels = async (dispatch) => {
 }
 
 
-export const findOrCreateChannel = params => async (dispatch) => {
+export const findOrCreateChannel = (params, callback) => async (dispatch) => {
   try {
     dispatch(channelsCreateRequest())
     const { data } = await axios.put(`/api/v1/channels/findOrCreate`, params)
     dispatch(channelsCreateSuccess(data))
     dispatch(getChannels)
+    callback()
     dispatch(closeChatInviteModal())
   } catch (error) {
-    dispatch(channelsCreateFail(error.response.data.message))
+    dispatch(channelsCreateFail(error.response.data.error))
   }
 }
 
 export const acceptInvite = id => async (dispatch) => {
-
-  console.log('****** acceptInvite :', id);
   try {
     dispatch(loadAcceptInvite())
     const { data } = await axios.put(`/api/v1/channels/${id}/accept`);
     dispatch(setAcceptInvite(data.channel))
   } catch (error) {
-    console.log('********* error', error);
     dispatch(errorAcceptInvite())
   }
 }
@@ -57,7 +55,6 @@ export const acceptInvite = id => async (dispatch) => {
 //     dispatch(channelsRequest())
 //     const { data } = await axios.put(`/api/v1/channels/adminFindOrCreate`)
 //     dispatch(channelsSuccess(data))
-//     console.log('*******  channelsSuccess data', data);
 //     // Get all the messages once channel is fetched
 //     dispatch(getMessages(data.channel._id));
 //   } catch (error) {
@@ -70,7 +67,3 @@ export const newMessageReceived = params => async (dispatch) => {
     dispatch(addNewMessage(params.data));
   }
 }
-
-export const saveSocketDetail = socketID => async (dispatch) => {
-  dispatch(saveSocketID(socketID));
-};

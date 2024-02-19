@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { socket } from '../../socket';
+import { socketInit } from '../../socket';
 import { saveSocketDetail } from '../../actions/messageActions';
 
 export default function () {
   const dispatch = useDispatch();
-  const [isConnected, setIsConnected] = useState(socket.connected);
+  const [isConnected, setIsConnected] = useState(null);
 
   useEffect(() => {
+    const socket = socketInit();
+
     function onConnect() {
       setIsConnected(true);
-
-      console.log('******* socket.id :: ', socket.id);
-      dispatch(saveSocketDetail(socket.id));
+      dispatch(saveSocketDetail(socket));
     }
 
     function onDisconnect() {
@@ -29,7 +29,9 @@ export default function () {
     };
   }, []);
 
-  return (
-    <p>State: { isConnected ? 'Connected' : 'Disconnected' }</p>
-  );
+  return null;
+  
+  // (
+  //   <p>State: { isConnected ? 'Connected' : 'Disconnected' }</p>
+  // );
 }

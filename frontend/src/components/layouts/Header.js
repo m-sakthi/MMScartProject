@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Dropdown, Image } from 'react-bootstrap';
 import { logout } from '../../actions/userActions';
 import Avatar from '../common/avatar';
+import Socket from '../socket';
 
 export default function Header() {
   const { isAuthenticated, user, isOnline } = useSelector(state => state.authState);
@@ -17,6 +18,7 @@ export default function Header() {
 
   return (
     <nav className="navbar row nav-pad-rl bg-light">
+      {isAuthenticated && <Socket />}
       <div className="col-12 col-md-3">
         <div className="navbar-brand">
           <Link to="/">

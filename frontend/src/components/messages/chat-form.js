@@ -1,11 +1,12 @@
 import { useRef, useState, useEffect } from "react";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { socket } from '../../socket';
+// import { socketInit } from '../../socket';
 import TextareaAutosize from 'react-textarea-autosize';
 import { newMessageReceived } from '../../actions/messageActions';
 
-const ChatForm = ({ loadingMessages, selectedChannel }) => {
+const ChatForm = ({ socketObj, loadingMessages }) => {
+  const { selectedChannel } = useSelector((state) => state.channelState);
   const dispatch = useDispatch();
   const [isloading, setIsLoading] = useState(false);
   const txtRef = useRef();
@@ -31,7 +32,7 @@ const ChatForm = ({ loadingMessages, selectedChannel }) => {
       };
 
       setIsLoading(true);
-      socket.timeout(5).emit('send-message', params, messageCallback);
+      socketObj.timeout(5).emit('send-message', params, messageCallback);
     }
   };
 
@@ -44,9 +45,11 @@ const ChatForm = ({ loadingMessages, selectedChannel }) => {
   }
 
   useEffect(() => {
-    socket.on('new-message-sent', handleMessageSent);
-    socket.on('new-message-received', handleMessageReceived);
-  }, []);
+    if (socketObj) {
+      socketObj.on('new-message-sent', handleMessageSent);
+      socketObj.on('new-message-received', handleMessageReceived);
+    }
+  }, [socketObj]);
 
   return (
     <div className="chat-footer pb-3 pb-lg-4">

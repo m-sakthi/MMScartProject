@@ -8,7 +8,7 @@ import ChatForm from './chat-form';
 
 const MessagesPage = ({ latestMessage, isLoading }) => {
   const { loadingChannels, selectedChannel } = useSelector((state) => state.channelState);
-  const { messages, loading: loadingMessages } = useSelector((state) => state.messageState);
+  const { messages, socketObj, loading: loadingMessages } = useSelector((state) => state.messageState);
   const { user } = useSelector(state => state.authState);
   const dispatch = useDispatch();
 
@@ -24,7 +24,7 @@ const MessagesPage = ({ latestMessage, isLoading }) => {
         {selectedChannel ? <div className="d-flex flex-column h-100 position-relative">
           <ChatHeader currentUser={user} recepient={selectedChannel.recepient} latestMessage={latestMessage} isLoading={isLoading} />
           <MessagesList currentUser={user} recepient={selectedChannel.recepient} messages={messages} />
-          <ChatForm loadingMessages={loadingMessages || loadingChannels} selectedChannel={selectedChannel} />
+          <ChatForm socketObj={socketObj} loadingMessages={loadingMessages || loadingChannels} selectedChannel={selectedChannel} />
         </div> : null}
       </div>
     </main>

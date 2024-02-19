@@ -3,7 +3,7 @@ import {
   messagesRequest,
   messagesSuccess,
   messagesFail,
-  saveSocketID,
+  saveSocket,
   addNewMessage,
 } from '../slices/messageSlice';
 
@@ -42,7 +42,6 @@ export const getMessages = channelId => async (dispatch) => {
 //     dispatch(channelsRequest())
 //     const { data } = await axios.put(`/api/v1/channels/adminFindOrCreate`)
 //     dispatch(channelsSuccess(data))
-//     console.log('*******  channelsSuccess data', data);
 //     // Get all the messages once channel is fetched
 //     dispatch(getMessages(data.channel._id));
 //   } catch (error) {
@@ -57,7 +56,7 @@ export const newMessageReceived = params => async (dispatch) => {
   }
 }
 
-export const saveSocketDetail = socketID => async (dispatch) => {
-  dispatch(saveSocketID(socketID));
-  dispatch(saveIsOnline(Boolean(socketID)));
+export const saveSocketDetail = socket => async (dispatch) => {
+  dispatch(saveSocket(socket));
+  dispatch(saveIsOnline(Boolean(socket)));
 };
