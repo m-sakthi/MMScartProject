@@ -5,9 +5,15 @@ const Avatar = ({ user, isOnline, isLoading, onClick, classes = '' }) => {
   if (isLoading) {
     return (
       <div className="avatar">
-        <svg className="avatar-img placeholder-img" width="100%" height="100%"
-          xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder"
-          preserveAspectRatio="xMidYMid slice" focusable="false">
+        <svg
+          width="100%"
+          height="100%"
+          role="img"
+          focusable="false"
+          aria-label="Placeholder"
+          xmlns="http://www.w3.org/2000/svg"
+          preserveAspectRatio="xMidYMid slice"
+          className="avatar-img placeholder-img">
           <title>Placeholder</title>
           <rect width="100%" height="100%" fill="#868e96"></rect>
         </svg>
@@ -23,7 +29,7 @@ const Avatar = ({ user, isOnline, isLoading, onClick, classes = '' }) => {
   const avatar = <div className={`avatar${isOnline ? ' avatar-online' : ''} ${classes}`}>
     {/* avatar-offline */}
     {user.avatar ?
-      <Image src={user.avatar} fallbackSrc="/images/default-image.svg" alt="#" className="avatar-img" />
+      <Image src={user.avatar} fallbackSrc="/images/default-avatar.svg" alt="#" className="avatar-img" />
       : <span className="avatar-text">{user.initials}</span>}
   </div>
 

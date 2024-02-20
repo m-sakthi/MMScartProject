@@ -38,9 +38,9 @@ export default function Login() {
   return (
     <Fragment>
       <MetaData title={`Login`} />
-      <div className="row wrapper">
+      <div className="row justify-content-center mt-15">
         <div className="col-10 col-lg-5">
-          <form onSubmit={submitHandler} className="shadow-lg">
+          <form onSubmit={submitHandler} className="shadow-lg p-10">
             <h1 className="mb-3">Login</h1>
             <div className="form-group mt-5">
               <label htmlFor="email_field">Email</label>
@@ -64,7 +64,7 @@ export default function Login() {
               />
             </div>
 
-            <div className='d-flex align-items-center mt-5 mb-3'>
+            <div className='d-flex align-items-center mt-5'>
               <Link to="/password/forgot" className="me-auto">Forgot Password?</Link>
               <Link to="/register" className="float-right mt-3">New User?</Link>
             </div>
@@ -72,7 +72,7 @@ export default function Login() {
             <button
               id="login_button"
               type="submit"
-              className="btn btn-block mt-5 py-3"
+              className="btn btn-block btn-primary mt-6 py-3"
               disabled={loading}
             >
               LOGIN

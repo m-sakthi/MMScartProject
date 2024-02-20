@@ -206,7 +206,7 @@ export  default function NewProduct () {
                             id="login_button"
                             type="submit"
                             disabled={loading}
-                            className="btn btn-block py-3"
+                            className="btn btn-block btn-primary py-3"
                             >
                             CREATE
                             </button>

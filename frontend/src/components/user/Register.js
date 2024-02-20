@@ -12,10 +12,10 @@ export default function Register() {
   });
 
   const [avatar, setAvatar] = useState("");
-  const [avatarPreview, setAvatarPreview] = useState("/images/default_avatar.png");
+  const [avatarPreview, setAvatarPreview] = useState("/images/default-avatar.svg");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading, error, isAuthenticated } = useSelector(state => state.authState)
+  const { loading, error, isAuthenticated } = useSelector(state => state.authState);
 
   const onChange = (e) => {
     if (e.target.name === 'avatar') {
@@ -58,45 +58,52 @@ export default function Register() {
   }, [error, isAuthenticated, dispatch, navigate])
 
   return (
-    <div className="row wrapper">
+    <div className="row justify-content-center mt-15">
       <div className="col-10 col-lg-5">
-        <form onSubmit={submitHandler} className="shadow-lg" encType='multipart/form-data'>
+        <form onSubmit={submitHandler} className="shadow-lg p-10" encType='multipart/form-data'>
           <h1 className="mb-3">Register</h1>
 
-          <div className="form-group mt-5">
-            <label htmlFor="email_field">Name</label>
-            <input name='name' onChange={onChange} type="name" id="name_field" className="form-control" />
+          <div className="form-floating mt-5">
+            <input
+              name='name'
+              type="name"
+              id="name_field"
+              onChange={onChange}
+              className="form-control"
+              placeholder='Full Name'
+            />
+            <label htmlFor="email_field">Full Name</label>
           </div>
 
-          <div className="form-group mt-5">
-            <label htmlFor="email_field">Email</label>
+          <div className="form-floating mt-5">
             <input
               type="email"
               id="email_field"
               name='email'
               onChange={onChange}
               className="form-control"
-
+              placeholder='Email'
             />
+            <label htmlFor="email_field">Email</label>
           </div>
 
-          <div className="form-group mt-5">
-            <label htmlFor="password_field">Password</label>
+          <div className="form-floating mt-5">
             <input
               name='password'
               onChange={onChange}
               type="password"
               id="password_field"
               className="form-control"
-
+              placeholder='Password'
             />
+            <label htmlFor="password_field">Password</label>
           </div>
 
           <div className='form-group mt-5'>
             <label htmlFor='avatar_upload'>Avatar</label>
             <div className='d-flex align-items-center'>
-              <div className='me-5'>
-                <figure className='avatar mr-3 item-rtl'>
+              <div className='me-3'>
+                <figure className='avatar'>
                   <img
                     src={avatarPreview}
                     className='rounded-circle'
@@ -105,15 +112,13 @@ export default function Register() {
                 </figure>
               </div>
               <div className='custom-file'>
-                <label className='custom-file-label' htmlFor='customFile'>
-                  Choose Avatar
-                </label>
                 <input
                   type='file'
                   name='avatar'
                   onChange={onChange}
-                  className='custom-file-input'
+                  className='form-control'
                   id='customFile'
+                  placeholder='Avatar'
                 />
               </div>
             </div>
@@ -122,7 +127,7 @@ export default function Register() {
           <button
             id="register_button"
             type="submit"
-            className="btn btn-block mt-5 py-3"
+            className="btn btn-block btn-primary mt-6 py-3"
             disabled={loading}
           >
             REGISTER
